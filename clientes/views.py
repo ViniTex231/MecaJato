@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Cliente, Carro
 
 def clientes(request):
     if request.method == "GET":
@@ -13,6 +14,19 @@ def clientes(request):
         placas = request.POST.getlist('placa')
         anos = request.POST.getlist('ano')
 
-        return HttpResponse('teste')
+        cliente = Cliente(
+            nome = nome,
+            sobrenome = sobrenome,
+            email = email,
+            cpf = cpf
+        )
+
+        cliente.save()
+
+        for carro, placa, ano in zip(carros, placas, anos):
+            car = Carro(carro=carro, placa=placa, ano=ano, cliente=cliente)
+            car.save()
+
+        return HttpResponse("testeeee")
         
 
